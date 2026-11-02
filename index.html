@@ -64,6 +64,13 @@
         .cp-viewer { height: 580px; overflow-y: auto; background: #f1f5f9; border-radius: 12px; padding: 8px 0; user-select: none; -webkit-user-select: none; }
         .cp-viewer canvas { display: block; margin: 0 auto 10px; max-width: calc(100% - 16px); height: auto; box-shadow: 0 1px 4px rgba(0,0,0,.15); background: #fff; }
         @media print { .cp-viewer { display: none !important; } }
+        .cp-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 10px; font-size: 12px; font-weight: 700; color: #334155; }
+        .cp-fsbtn { padding: 6px 12px; border-radius: 10px; background: #0f172a; color: #fff; font-weight: 700; font-size: 12px; }
+        .cp-pages { height: 540px; overflow-y: auto; }
+        .cp-fs { position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important; z-index: 9999; border-radius: 0 !important; background: #0f172a !important; padding: 0 !important; }
+        .cp-fs .cp-pages { height: calc(100vh - 44px); }
+        .cp-fs .cp-bar { background: #0f172a; color: #fff; }
+        .cp-fs .cp-fsbtn { background: #fff; color: #0f172a; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -1277,18 +1284,26 @@
         // Trình đọc mẫu (PDF.js): chỉ dùng cho file mẫu đặt trong thư mục samples/
         function cpRenderSample(host, url) {
             host.className = 'cp-viewer';
-            host.innerHTML = '<div class="pdf-loading-bg"><span class="text-xs font-medium">Đang tải trang đọc thử...</span></div>';
+            host.innerHTML = '<div class="cp-bar"><span>Đọc thử</span><button type="button" class="cp-fsbtn">Toàn màn hình</button></div><div class="cp-pages"><div class="pdf-loading-bg"><span class="text-xs font-medium">Đang tải trang đọc thử...</span></div></div>';
             host.oncontextmenu = e => e.preventDefault();
+            const pages = host.querySelector('.cp-pages');
+            const fsBtn = host.querySelector('.cp-fsbtn');
+            fsBtn.onclick = () => {
+                const on = host.classList.toggle('cp-fs');
+                fsBtn.textContent = on ? 'Thoát toàn màn hình' : 'Toàn màn hình';
+                document.body.style.overflow = on ? 'hidden' : '';
+                if (window.cpDraw) setTimeout(window.cpDraw, 50);
+            };
             if (!window.pdfjsLib) {
-                host.innerHTML = '<p class="p-6 text-sm text-slate-500 text-center">Không tải được trình đọc. Vui lòng thử lại sau.</p>';
+                pages.innerHTML = '<p class="p-6 text-sm text-slate-500 text-center">Không tải được trình đọc. Vui lòng thử lại sau.</p>';
                 return;
             }
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
             pdfjsLib.getDocument(url).promise.then(doc => {
                 let timer = null;
                 const draw = () => {
-                    host.innerHTML = '';
-                    const width = Math.max(200, host.clientWidth - 16);
+                    pages.innerHTML = '';
+                    const width = Math.max(200, pages.clientWidth - 16);
                     const dpr = Math.min(window.devicePixelRatio || 1, 2);
                     for (let n = 1; n <= doc.numPages; n++) {
                         doc.getPage(n).then(page => {
@@ -1299,15 +1314,16 @@
                             canvas.height = vp.height * dpr;
                             canvas.style.width = vp.width + 'px';
                             canvas.style.height = vp.height + 'px';
-                            host.appendChild(canvas);
+                            pages.appendChild(canvas);
                             page.render({ canvasContext: canvas.getContext('2d'), viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null });
                         });
                     }
                 };
+                window.cpDraw = draw;
                 draw();
                 window.addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(draw, 250); });
             }).catch(() => {
-                host.innerHTML = '<p class="p-6 text-sm text-slate-500 text-center">Không mở được trang đọc thử.</p>';
+                pages.innerHTML = '<p class="p-6 text-sm text-slate-500 text-center">Không mở được trang đọc thử.</p>';
             });
         }
 
