@@ -93,7 +93,7 @@
             <div class="hidden md:flex items-center gap-3 text-sm font-medium">
                 <div class="bg-emerald-700/70 px-3 py-1.5 rounded-lg flex items-center gap-2">
                     <i class="fas fa-book text-emerald-200"></i>
-                    <span id="totalBooksBadge">24 Bộ (71 Tập)</span>
+                    <span id="totalBooksBadge">25 Bộ (76 Tập)</span>
                 </div>
                 <button onclick="toggleSidebar()" class="bg-white text-emerald-700 hover:bg-emerald-50 font-bold px-3.5 py-1.5 rounded-lg shadow-sm transition flex items-center gap-2 cursor-pointer">
                     <i class="fas fa-list-ul"></i> Mục lục đầy đủ
@@ -138,11 +138,11 @@
         <section id="heroBanner" class="relative rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm mb-8 transition-all duration-500 bg-gradient-to-r from-purple-50 via-fuchsia-50 to-slate-100">
             <div class="p-6 sm:p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div class="max-w-2xl z-10">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white shadow-xs mb-3 text-purple-600" id="bannerTag"><span class="w-2 h-2 rounded-full bg-current animate-ping"></span> Chuyên Đề #1/24 • Bộ 3 Quyển</div>
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3" id="bannerTitle">CẤU TRÚC DỮ LIỆU DẠNG CÂY</h1>
-                    <p class="text-slate-600 text-sm sm:text-base italic mb-5 leading-relaxed" id="bannerDesc">"Tổ chức dữ liệu theo phân cấp để truy vấn và cập nhật nhanh – Nền tảng của mọi kĩ thuật xử lý đoạn, tập hợp và đồ thị."</p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white shadow-xs mb-3 text-purple-600" id="bannerTag"><span class="w-2 h-2 rounded-full bg-current animate-ping"></span> Chuyên Đề #1/25 • Bộ 5 Quyển</div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3" id="bannerTitle">THUẬT TOÁN TRÊN CÂY</h1>
+                    <p class="text-slate-600 text-sm sm:text-base italic mb-5 leading-relaxed" id="bannerDesc">"Từ DFS, LCA đến quy hoạch động, gộp tập và phân rã cây – Trọn bộ kĩ thuật xử lý bài toán trên cây trong thi HSG."</p>
                     <div class="flex flex-wrap items-center gap-3">
-                        <button id="bannerActionBtn" onclick="scrollToBook('book-cautrucdulieucay')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer">
+                        <button id="bannerActionBtn" onclick="scrollToBook('book-thuattoantrencay')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer">
                             <i class="fas fa-book-reader"></i> Đọc thử bộ này ngay
                         </button>
                         <div class="inline-flex items-center px-3.5 py-2 bg-white/90 rounded-xl border border-slate-200/80 text-xs sm:text-sm font-semibold text-slate-700">
@@ -178,7 +178,7 @@
                     </h2>
                     <p class="text-xs text-slate-500 mt-0.5">Nhấn vào bất kỳ chuyên đề nào bên dưới để chuyển nhanh tới khu vực đọc thử PDF</p>
                 </div>
-                <span class="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full self-start sm:self-auto" id="catalogSummaryCount">Đang hiển thị: 24 bộ chuyên đề</span>
+                <span class="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full self-start sm:self-auto" id="catalogSummaryCount">Đang hiển thị: 25 bộ chuyên đề</span>
             </div>
             <div id="catalogOverviewGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 <!-- JS tự động render thẻ tóm tắt từng đầu sách tại đây -->
@@ -366,7 +366,7 @@
                 <div>
                     <div class="flex items-center justify-between mb-3">
                         <h3 class="text-sm font-black uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                            <i class="fas fa-list-ol text-emerald-600"></i> 2. Danh Sách Các Đầu Sách Đang Có (<span id="admCurrentCount">24</span> bộ)
+                            <i class="fas fa-list-ol text-emerald-600"></i> 2. Danh Sách Các Đầu Sách Đang Có (<span id="admCurrentCount">25</span> bộ)
                         </h3>
                         <span class="text-xs text-slate-500">Bộ ở vị trí số 1 sẽ xuất hiện đầu tiên trên trang</span>
                     </div>
@@ -389,9 +389,38 @@
 
     <!-- ================= JAVASCRIPT ENGINE (DATA-DRIVEN) ================= -->
     <script id="mainAppScript">
-        // 1. CƠ SỞ DỮ LIỆU TẬP TRUNG (24 ĐẦU SÁCH)
+        // 1. CƠ SỞ DỮ LIỆU TẬP TRUNG (25 ĐẦU SÁCH)
         /*__BOOKS_DATA_START__*/
         let BOOKS_DATA = [
+    {
+        "id": "book-thuattoantrencay",
+        "title": "THUẬT TOÁN TRÊN CÂY",
+        "desc": "Từ DFS, LCA đến quy hoạch động, gộp tập và phân rã cây – Trọn bộ kĩ thuật xử lý bài toán trên cây trong thi HSG.",
+        "theme": "emerald",
+        "icon": "fa-network-wired",
+        "vols": [
+            {
+                "name": "TẬP 1: NỀN TẢNG",
+                "link": "https://drive.google.com/file/d/1tfYl5KHluXif_nyDavcIKoZcdF-Ooohu/preview"
+            },
+            {
+                "name": "TẬP 2: LCA",
+                "link": "https://drive.google.com/file/d/1yix7hSSjsDLFenR-DPoOCHSSrQ8YG609/preview"
+            },
+            {
+                "name": "TẬP 3: QUY HOẠCH ĐỘNG TRÊN CÂY",
+                "link": "https://drive.google.com/file/d/19khZQxhgBFfC9QyUmUlhuSVvC5Aaf65Y/preview"
+            },
+            {
+                "name": "TẬP 4: KỸ THUẬT GỘP",
+                "link": "https://drive.google.com/file/d/1-Ajjxn4YfeCBfkYxzl-WqQH45OB7MejT/preview"
+            },
+            {
+                "name": "TẬP 5: PHÂN RÃ CÂY",
+                "link": "https://drive.google.com/file/d/1mkN7iOszw2-NSg-nPxGr9vWpRe28hcA_/preview"
+            }
+        ]
+    },
     {
         "id": "book-cautrucdulieucay",
         "title": "CẤU TRÚC DỮ LIỆU DẠNG CÂY",
