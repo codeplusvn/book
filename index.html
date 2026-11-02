@@ -58,6 +58,13 @@
             z-index: 1;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        /* Khung đọc mẫu: hiển thị vừa khít chiều rộng, cuộn dọc, không có nút tải/in */
+        .cp-viewer { height: 580px; overflow-y: auto; background: #f1f5f9; border-radius: 12px; padding: 8px 0; user-select: none; -webkit-user-select: none; }
+        .cp-viewer canvas { display: block; margin: 0 auto 10px; max-width: calc(100% - 16px); height: auto; box-shadow: 0 1px 4px rgba(0,0,0,.15); background: #fff; }
+        @media print { .cp-viewer { display: none !important; } }
+    </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -1097,7 +1104,7 @@
         "vols": [
             {
                 "name": "TẬP 1: CPP TỪ CON SỐ 0",
-                "link": "https://drive.google.com/file/d/1Yaq0iZlepJT6owtETjeTRzHNpUg43tP_/preview"
+                "link": "samples/cpp-tu-con-so-0-preview.pdf"
             },
             {
                 "name": "TẬP 2: STL NÂNG CAO",
@@ -1267,11 +1274,53 @@
         // ================= ĐỌC SÁCH + THỐNG KÊ (assets/stats.js) =================
         window.BOOKS_DATA_REF = () => BOOKS_DATA;
         // Chỉ tải PDF khi người đọc bấm "Đọc" → mỗi lần bấm là một lượt đọc thật
+        // Trình đọc mẫu (PDF.js): chỉ dùng cho file mẫu đặt trong thư mục samples/
+        function cpRenderSample(host, url) {
+            host.className = 'cp-viewer';
+            host.innerHTML = '<div class="pdf-loading-bg"><span class="text-xs font-medium">Đang tải trang đọc thử...</span></div>';
+            host.oncontextmenu = e => e.preventDefault();
+            if (!window.pdfjsLib) {
+                host.innerHTML = '<p class="p-6 text-sm text-slate-500 text-center">Không tải được trình đọc. Vui lòng thử lại sau.</p>';
+                return;
+            }
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            pdfjsLib.getDocument(url).promise.then(doc => {
+                let timer = null;
+                const draw = () => {
+                    host.innerHTML = '';
+                    const width = Math.max(200, host.clientWidth - 16);
+                    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                    for (let n = 1; n <= doc.numPages; n++) {
+                        doc.getPage(n).then(page => {
+                            const base = page.getViewport({ scale: 1 });
+                            const vp = page.getViewport({ scale: width / base.width });
+                            const canvas = document.createElement('canvas');
+                            canvas.width = vp.width * dpr;
+                            canvas.height = vp.height * dpr;
+                            canvas.style.width = vp.width + 'px';
+                            canvas.style.height = vp.height + 'px';
+                            host.appendChild(canvas);
+                            page.render({ canvasContext: canvas.getContext('2d'), viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : null });
+                        });
+                    }
+                };
+                draw();
+                window.addEventListener('resize', () => { clearTimeout(timer); timer = setTimeout(draw, 250); });
+            }).catch(() => {
+                host.innerHTML = '<p class="p-6 text-sm text-slate-500 text-center">Không mở được trang đọc thử.</p>';
+            });
+        }
+
         function cpOpenVol(btn, bookId, vIdx) {
             const book = BOOKS_DATA.find(x => x.id === bookId);
             const v = book && book.vols[vIdx];
             if (!v || !v.link) return;
             const box = btn.parentElement;
+            if (v.link.startsWith('samples/')) {
+                cpRenderSample(box, v.link);
+                if (window.cpStats) window.cpStats.read(bookId, vIdx, box);
+                return;
+            }
             box.innerHTML = `<div class="pdf-loading-bg"><i class="fas fa-circle-notch fa-spin text-2xl mb-2 text-emerald-600"></i>
                 <span class="text-xs font-medium">Đang tải bản đọc thử PDF...</span></div>
                 <iframe src="${v.link}" title="${book.title} - ${v.name || ''}" allow="autoplay"></iframe>`;
