@@ -93,7 +93,7 @@
             <div class="hidden md:flex items-center gap-3 text-sm font-medium">
                 <div class="bg-emerald-700/70 px-3 py-1.5 rounded-lg flex items-center gap-2">
                     <i class="fas fa-book text-emerald-200"></i>
-                    <span id="totalBooksBadge">35 Bộ (106 Tập)</span>
+                    <span id="totalBooksBadge">36 Bộ (113 Tập)</span>
                 </div>
                 <button onclick="toggleSidebar()" class="bg-white text-emerald-700 hover:bg-emerald-50 font-bold px-3.5 py-1.5 rounded-lg shadow-sm transition flex items-center gap-2 cursor-pointer">
                     <i class="fas fa-list-ul"></i> Mục lục đầy đủ
@@ -138,11 +138,11 @@
         <section id="heroBanner" class="relative rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm mb-8 transition-all duration-500 bg-gradient-to-r from-purple-50 via-fuchsia-50 to-slate-100">
             <div class="p-6 sm:p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div class="max-w-2xl z-10">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white shadow-xs mb-3 text-purple-600" id="bannerTag"><span class="w-2 h-2 rounded-full bg-current animate-ping"></span> Chuyên Đề #1/35 • Bộ 3 Quyển</div>
-                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3" id="bannerTitle">TỔNG HỢP BÀI TOÁN TRÊN TIMUS</h1>
-                    <p class="text-slate-600 text-sm sm:text-base italic mb-5 leading-relaxed" id="bannerDesc">"Tuyển chọn và lời giải các bài toán kinh điển trên Timus Online Judge – Luyện tập theo chủ đề: quy hoạch động, quay lui và toán học."</p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white shadow-xs mb-3 text-purple-600" id="bannerTag"><span class="w-2 h-2 rounded-full bg-current animate-ping"></span> Chuyên Đề #1/36 • Bộ 7 Quyển</div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3" id="bannerTitle">TỔNG HỢP BÀI TOÁN TRÊN LUOGU</h1>
+                    <p class="text-slate-600 text-sm sm:text-base italic mb-5 leading-relaxed" id="bannerDesc">"Tuyển chọn và lời giải các bài toán trên Luogu theo chủ đề – Từ chặt nhị phân, tam phân đến số học, quy hoạch động và đồ thị."</p>
                     <div class="flex flex-wrap items-center gap-3">
-                        <button id="bannerActionBtn" onclick="scrollToBook('book-timus')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer">
+                        <button id="bannerActionBtn" onclick="scrollToBook('book-luogu')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer">
                             <i class="fas fa-book-reader"></i> Đọc thử bộ này ngay
                         </button>
                         <div class="inline-flex items-center px-3.5 py-2 bg-white/90 rounded-xl border border-slate-200/80 text-xs sm:text-sm font-semibold text-slate-700">
@@ -178,7 +178,7 @@
                     </h2>
                     <p class="text-xs text-slate-500 mt-0.5">Nhấn vào bất kỳ chuyên đề nào bên dưới để chuyển nhanh tới khu vực đọc thử PDF</p>
                 </div>
-                <span class="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full self-start sm:self-auto" id="catalogSummaryCount">Đang hiển thị: 35 bộ chuyên đề</span>
+                <span class="text-xs font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full self-start sm:self-auto" id="catalogSummaryCount">Đang hiển thị: 36 bộ chuyên đề</span>
             </div>
             <div id="catalogOverviewGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 <!-- JS tự động render thẻ tóm tắt từng đầu sách tại đây -->
@@ -366,7 +366,7 @@
                 <div>
                     <div class="flex items-center justify-between mb-3">
                         <h3 class="text-sm font-black uppercase tracking-wider text-slate-700 flex items-center gap-2">
-                            <i class="fas fa-list-ol text-emerald-600"></i> 2. Danh Sách Các Đầu Sách Đang Có (<span id="admCurrentCount">35</span> bộ)
+                            <i class="fas fa-list-ol text-emerald-600"></i> 2. Danh Sách Các Đầu Sách Đang Có (<span id="admCurrentCount">36</span> bộ)
                         </h3>
                         <span class="text-xs text-slate-500">Bộ ở vị trí số 1 sẽ xuất hiện đầu tiên trên trang</span>
                     </div>
@@ -389,9 +389,46 @@
 
     <!-- ================= JAVASCRIPT ENGINE (DATA-DRIVEN) ================= -->
     <script id="mainAppScript">
-        // 1. CƠ SỞ DỮ LIỆU TẬP TRUNG (35 ĐẦU SÁCH)
+        // 1. CƠ SỞ DỮ LIỆU TẬP TRUNG (36 ĐẦU SÁCH)
         /*__BOOKS_DATA_START__*/
         let BOOKS_DATA = [
+    {
+        "id": "book-luogu",
+        "title": "TỔNG HỢP BÀI TOÁN TRÊN LUOGU",
+        "desc": "Tuyển chọn và lời giải các bài toán trên Luogu theo chủ đề – Từ chặt nhị phân, tam phân đến số học, quy hoạch động và đồ thị.",
+        "theme": "orange",
+        "icon": "fa-laptop-code",
+        "vols": [
+            {
+                "name": "TẬP 1: CHẶT NHỊ PHÂN TRÊN KẾT QUẢ",
+                "link": "https://drive.google.com/file/d/1Mi88mWN7E2xnTCNU2t0X8mz3gCegUsOc/preview"
+            },
+            {
+                "name": "TẬP 2: CHẶT NHỊ PHÂN SONG SONG",
+                "link": "https://drive.google.com/file/d/1PWRRaco0VJ_IAkid9SG8u9KyQ7Uc0p64/preview"
+            },
+            {
+                "name": "TẬP 3: CHẶT TAM PHÂN",
+                "link": "https://drive.google.com/file/d/1J_pPMast8z3y7A2yA1aq4ARX2r_5yzce/preview"
+            },
+            {
+                "name": "TẬP 4: ĐỆ QUY – QUAY LUI – NHÁNH CẬN",
+                "link": "https://drive.google.com/file/d/15OEBTSFz0W09zVb9BwvqfmoZBtkMbxu6/preview"
+            },
+            {
+                "name": "TẬP 5: SỐ HỌC CƠ BẢN VÀ NÂNG CAO",
+                "link": "https://drive.google.com/file/d/1BwQSvAr7-Nbfc7_QVv9jJ7WGgi9OWX2P/preview"
+            },
+            {
+                "name": "TẬP 6: QUY HOẠCH ĐỘNG CƠ BẢN VÀ NÂNG CAO",
+                "link": "https://drive.google.com/file/d/1XjdMtWyaasSVpD1dFtPq1S-mDg9yC219/preview"
+            },
+            {
+                "name": "TẬP 7: LÝ THUYẾT ĐỒ THỊ CƠ BẢN VÀ NÂNG CAO",
+                "link": "https://drive.google.com/file/d/1rkOBi35ibm3zqIUJFVaYbSDeNunrbmRb/preview"
+            }
+        ]
+    },
     {
         "id": "book-timus",
         "title": "TỔNG HỢP BÀI TOÁN TRÊN TIMUS",
@@ -1195,6 +1232,7 @@
                 case 4: return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
                 case 5: return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
                 case 6: return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+                case 7: case 8: return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
                 default: return "grid-cols-1 md:grid-cols-3";
             }
         }
