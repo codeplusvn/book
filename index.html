@@ -1339,7 +1339,7 @@
             }
             box.innerHTML = `<div class="pdf-loading-bg"><i class="fas fa-circle-notch fa-spin text-2xl mb-2 text-emerald-600"></i>
                 <span class="text-xs font-medium">Đang tải bản đọc thử PDF...</span></div>
-                <iframe src="${v.link}" title="${book.title} - ${v.name || ''}" allow="autoplay"></iframe>`;
+                <div class="cp-drive-wrap" style="position:relative;width:100%;height:100%"><iframe src="${v.link}" title="${book.title} - ${v.name || ''}" allow="autoplay" style="width:100%;height:100%;border:0"></iframe><div aria-hidden="true" style="position:absolute;top:0;right:0;width:90px;height:90px;z-index:5;background:transparent"></div></div>`;
             if (window.cpStats) window.cpStats.read(bookId, vIdx, box);
         }
         function cpTrackFull(bookId, vIdx) { if (window.cpStats) window.cpStats.full(bookId, vIdx); }
